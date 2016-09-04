@@ -1,0 +1,27 @@
+set Housing := LowerIncome UpperIncome;
+
+param UnitCost :=
+	LowerIncome	19000
+	UpperIncome	25000;
+
+param MinUnits :=
+        LowerIncome     85 
+        UpperIncome     50;
+
+param MaxUnits :=  
+        LowerIncome     125
+        UpperIncome     100;
+
+param UnitSize :=  
+        LowerIncome     0.05
+        UpperIncome     0.0666666667;
+
+param MaxTotalUnits := 200;
+
+param Type1 :=  
+        LowerIncome     1
+        UpperIncome     0;
+
+param Type1MaxPercent := 0.45;
+
+param MaxTotalSize := 10;

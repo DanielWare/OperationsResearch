@@ -1,0 +1,54 @@
+set Plants := Plant1 Plant2;
+set Processes := Process1 Process2;
+set Regions := East West;
+set Products := A B;
+
+param Months := 2;
+
+param Demand :=
+	[1,*,*]:	East	West :=
+		A	3600	4900
+		B	4500	5100
+
+	[2,*,*]:	East	West :=
+		A	6300	4200
+		B	5400	6000;
+
+param: DaysAvailable :=
+	1	20
+	2	23;
+
+param StorageCapacity := 1000;
+
+param EndingStorageAmount := 400;
+
+param: StorageCost :=
+	A	4
+	B	3;
+
+param ProductionCost :=	
+	[*,*,Process1]:	Plant1	Plant2 :=
+		A	63	60
+		B	79	88
+
+	[*,*,Process2]:	Plant1	Plant2 :=
+		A	59	65
+		B	85	86;
+
+param ProductionRate :=
+	[*,*,Process1]:	Plant1	Plant2 :=
+		A	110	120
+		B	130	150
+
+	[*,*,Process2]:	Plant1	Plant2 :=
+		A	140	110
+		B	150	130;
+
+param SellingPrice :=
+	[A,*,*]:	East	West :=
+	Plant1		83	73
+	Plant2		73	83 
+
+	[B,*,*]:	East	West :=
+	Plant1		112	104
+	Plant2		104	112 ;

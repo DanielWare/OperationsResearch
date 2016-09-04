@@ -1,0 +1,16 @@
+set Compartments := Front Center BackRight BackLeft;
+set Cargos := 1 2 3 4;
+
+param: 		WeightCapacity SpaceCapacity BalanceCoefficients :=
+	Front		12		7		0
+	Center		18		9		0
+	BackRight	10		5.5		-1
+	BackLeft	10		5		1;
+
+param: 		CargoWeight CargoVolume Profit :=
+	1		20	.5	320
+	2		16	.72	400
+	3		25	.61	360
+	4		13	.4	290;
+
+
