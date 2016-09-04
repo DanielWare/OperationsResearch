@@ -4,6 +4,7 @@
 # AMPL model by Daniel Ware, University of Central Oklahoma
 #########################################
 
+
 ### Declare variables
 
 # The number of finished chairs CT must make
@@ -17,7 +18,6 @@ var FinishedTables >= 0;
 
 # The number of unfinished tables CT must make
 var UnfinishedTables >= 0;
-
 
 
 ### Objective Function
@@ -45,5 +45,4 @@ subject to Ratio:	2*(UnfinishedChairs + FinishedChairs) >= (UnfinishedTables + F
 # Special orders on chairs and tables
 subject to ChairOrders: UnfinishedTables + FinishedTables >= 200;
 subject to TableOrders: UnfinishedChairs + FinishedChairs >= 450;
-
 
