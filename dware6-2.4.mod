@@ -4,6 +4,7 @@
 # AMPL model by Daniel Ware, University of Central Oklahoma
 #########################################
 
+
 ### Declare variables
 
 # The number of unstained Model A bookshelves produced
@@ -24,6 +25,7 @@ var UnstainedC >= 0;
 # The number of stained Model C bookshelves produced
 var StainedC >= 0;
 
+
 ### Objective Function
 
 # The objective here is to maximize profit
@@ -33,6 +35,7 @@ var StainedC >= 0;
 maximize TotalProfit: 	30*UnstainedA + 60*StainedA 
 						+ 20*UnstainedB + 40*StainedB
 						+ 40*UnstainedC + 75*StainedC;
+
 
 ### Constraints
 
@@ -52,8 +55,6 @@ subject to AssemblingLaborLimit:	4*(UnstainedA + StainedA) + 3*(UnstainedB + Sta
 
 # The limit on staining labor
 subject to StainingLaborLimit: 	7*StainedA + 5*StainedB + 8*StainedC <= 550;
-
-
 
 
 
