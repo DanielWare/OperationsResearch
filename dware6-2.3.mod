@@ -4,6 +4,7 @@
 # AMPL model by Daniel Ware, University of Central Oklahoma
 #########################################
 
+
 ### Declare variables
 
 # The number of square yards of 1mm film to be produced
@@ -27,6 +28,7 @@ var mach2 = 8*Film1 + 7*Film3 + 5*Film5 + 10*Film0;
 # The minutes that machine 3 was user
 var mach3 = 9*Film1 + 5*Film3 + 4*Film5 + 6*Film0;
 
+
 ### Objective Function
 
 # The objective here is to maximize profit
@@ -36,6 +38,7 @@ var mach3 = 9*Film1 + 5*Film3 + 4*Film5 + 6*Film0;
 
 maximize TotalProfit: 	(Film1*(110-30) + Film3*(90-10) + Film5*(60-10) + Film0*(100-20))
 						- ((mach1*25 + mach2*25 + mach3*35)/60);
+
 
 ### Constraints
 
