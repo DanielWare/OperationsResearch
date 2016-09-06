@@ -43,5 +43,11 @@ subject to DeptBLabor: 0.5*mPoles + 1*mBackboards + 1.5*mRims <= 900;
 # Limit on available labor hours in department C
 subject to DeptCLabor: 1*mPoles + 2*mBackboards + 1*mRims <= 1500;
 
-# minimum number of basketball hoops we need to have to meet demand
-subject to ProductionDemand: ((mPoles + pPoles) + mBackboards + (mRims + pRims))/3 >= 500;
+# number of total rims we must produce
+subject to RimProduction: mRims + pRims >= 500;
+
+# number of total poles we must produce
+subject to PoleProduction: mPoles + pPoles >= 500;
+
+# number of total backboards we must produce
+subject to BackboardProduction: mBackboards >= 500;
