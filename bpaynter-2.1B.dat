@@ -1,0 +1,48 @@
+#########################################
+# Exercise 2.1B - CT Furniture Company (Set version)
+# From Deterministic Operations Research by David J. Rader Jr.
+# AMPL model by Dr. Brad Paynter, University of Central Oklahoma
+# for MATH 4113/5113 - Operations Research 1 - Fall 2016
+#########################################
+
+########################
+# SETS                 #
+########################
+
+# The set of different kinds of furniture
+set FURNITURE = Chair Table;
+
+# The set of different types of finishes
+set FINISH = Finished Unfinished;
+
+########################
+# PARAMETERS	       #
+########################
+
+# The amount of lumber needed to make each furniture type (in board-feet)
+# The demand for each type of furniture
+param: LumberRequired Demand :=
+	Chair	10	450
+	Table	25	200	;
+
+# The amount of lumber available (in board-feet)
+param LumberAvailable := 10000;
+
+# The cost of lumber (in dollars per board-foot)
+param LumberCost := 2;
+
+# The amount of time required to make each product incl finishing (in hours)
+param LaborRequired: 	Finished	Unfinished	:=
+		Chair			8			2
+		Table			12			4		; 
+
+# The amount of time available (in hours)
+param LaborAvailable := 2500;
+
+# The price each piece of furniture can be sold for
+param SalesPrice: 	Finished	Unfinished	:=
+		Chair			55			30
+		Table			120			80		;
+
+
+

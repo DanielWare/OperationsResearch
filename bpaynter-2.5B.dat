@@ -1,0 +1,52 @@
+#########################################
+# Exercise 2.5B - Sycamore Basketball Company
+# From Deterministic Operations Research by David J. Rader Jr.
+# AMPL model by Dr. Brad Paynter, University of Central Oklahoma
+# for MATH 4113/5113 - Operations Research 1 - Fall 2016
+#########################################
+
+########################
+# SETS                 #
+########################
+
+# The set of production departments
+set DEPARTMENTS := A B C;
+
+# The set of basketball hoop parts
+set PARTS := Pole Backboard Rim;
+
+# The set of parts sources available to SBC
+set SOURCES := Make Buy;
+
+########################
+# PARAMETERS           #
+########################
+
+# The total demand for basketball hoops
+param Demand := 500;
+
+# The production time required by each part in each department 
+# (in hours per part)
+param ProductionTime:	A	B	C	:=
+	Pole		2	0.5	1
+	Backboard	2.5	1	2
+	Rim		1	1.5	1	;
+
+# The total amount of time available per department (in hours)
+param TimeAvailable 	:=
+	A	2000
+	B	900
+	C	1500	;
+
+# The cost of obtaining each part from each source (in dollars)
+param PartCost:		Make	Buy	:=
+	Pole		60	95
+	Backboard	80	9999999
+	Rim		30	45	;
+
+# The number of each part available from each source
+param PartsAvailable:	Make		Buy		:=
+	Pole		infinity	infinity
+	Backboard	infinity	0
+	Rim		infinity	infinity	;
+

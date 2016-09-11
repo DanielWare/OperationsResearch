@@ -1,0 +1,45 @@
+#########################################
+# Exercise 2.3B - Film Packaging (Set version)
+# From Deterministic Operations Research by David J. Rader Jr.
+# AMPL model by Dr. Brad Paynter, University of Central Oklahoma
+# for MATH 4113/5113 - Operations Research 1 - Fall 2016
+#########################################
+
+########################
+# SETS                 #
+########################
+
+# The set of film types
+set FILMS := 1mm 3mm 5mm 0.5mm;
+
+#The set of machines for processing film
+set MACHINES := 1 2 3;
+
+########################
+# PARAMETERS	       #
+########################
+
+# The number of hours each machine is available each week
+# The processing cost (in dollars per hour) for each machine
+param: 		MachineTimeAvailable 	ProcessingCost	:=
+	1		60			25
+	2		60			25
+	3		60			35	;
+
+# The revenue (in dollars per square yard) for each film type
+# The raw material cost (in dollars per square yard) for each type of film
+# The maximum demand for each type of film (in square yards per week)
+param: 		Revenue 	RawMaterialCost	Demand	:=
+	1mm	110		30		400
+	3mm	90		10		250
+	5mm	60		10		200
+	0.5mm	100		20		450	;
+
+# The amount of time required on each machine by each type of film (in minutes per square yard)
+param ProcessingTime:	1	2	3	:=
+	1mm		5	8	9
+	3mm		4	7	5
+	5mm		4	5	4
+	0.5mm		6	10	6	;
+
+

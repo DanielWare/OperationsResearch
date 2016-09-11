@@ -1,0 +1,57 @@
+#########################################
+# Exercise 2.4B - Wood Built Bookshelves (Set Version)
+# From Deterministic Operations Research by David J. Rader Jr.
+# AMPL model by Dr. Brad Paynter, University of Central Oklahoma
+# for MATH 4113/5113 - Operations Research 1 - Fall 2016
+#########################################
+
+########################
+# SETS                 #
+########################
+
+# The set of bookshelf models
+set MODELS := A B C;
+
+# The set of finish types
+set TYPES := Stained Unstained;
+
+# The set of assembly departments
+set DEPARTMENTS := Cutting Assembling Staining;
+
+########################
+# PARAMETERS           #
+########################
+
+# The amount of labor required from each department to build one bookshelf 
+# by type and model (in hours)
+param LaborRequired :=
+	[Stained, A, *]	  Cutting 1   Assembling 4   Staining 7
+	[Stained, B, *]	  Cutting 0.5 Assembling 3   Staining 5
+	[Stained, C, *]	  Cutting 2   Assembling 6   Staining 8
+	[Unstained, A, *] Cutting 1   Assembling 4   Staining 0
+	[Unstained, B, *] Cutting 0.5 Assembling 3   Staining 0
+	[Unstained, C, *] Cutting 2   Assembling 6   Staining 0	;
+	
+# The amount of labor available over the next two weeks 
+# by department (in hours)
+param LaborAvailable :=
+	Cutting		200
+	Assembling	700
+	Staining	550	;
+
+# The amount of profit earned from the manufacture and sale of one bookshelf
+# by type and model (in dollars)
+param Profit:		A	B	C	:=
+	Stained		60	40	75
+	Unstained	30	20	40	;
+
+# The minimum demand by model
+param MinDemand 	:=
+	A	0
+	B	20
+	C	0	;
+
+# The maximum demand by type
+param MaxDemand 		:=
+	Stained		infinity
+	Unstained	50	;

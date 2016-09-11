@@ -1,8 +1,9 @@
 #########################################
 # Exercise 2.1 - CT Furniture Company
 # From Deterministic Operations Research by David J. Rader Jr.
-# AMPL model by , University of Central Oklahoma
+# AMPL model by Daniel Ware, University of Central Oklahoma
 #########################################
+
 
 ### Declare variables
 
@@ -19,7 +20,6 @@ var FinishedTables >= 0;
 var UnfinishedTables >= 0;
 
 
-
 ### Objective Function
 
 # The objective is to maximize profit. 
@@ -32,15 +32,17 @@ maximize TotalProfit: 	35*FinishedChairs + 10*UnfinishedChairs
 ### Constraints
 
 # Limit on available lumber (in board-feet)
-subject to LumberLimit:	25(FinishedTables + UnfinishedTables) + 10(FinishedChairs + UnfinishedChairs)
+subject to LumberLimit:	25*(FinishedTables + UnfinishedTables) + 10*(FinishedChairs + UnfinishedChairs)
 						<= 10000;
 
 # Limit on available labor (in manhours)
-subject to LaborLimit: ;
+subject to LaborLimit: 	4*UnfinishedTables + 2*UnfinishedChairs + 12*FinishedTables + 8*FinishedChairs
+						<= 2500;
 
 # Ratio restriction
-subject to Ratio: ;
+subject to Ratio:	2*(UnfinishedChairs + FinishedChairs) >= (UnfinishedTables + FinishedTables);
 
 # Special orders on chairs and tables
-subject to ChairOrders: ;
-subject to TableOrders: ;
+subject to ChairOrders: UnfinishedTables + FinishedTables >= 200;
+subject to TableOrders: UnfinishedChairs + FinishedChairs >= 450;
+
