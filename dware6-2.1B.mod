@@ -71,6 +71,4 @@ subject to LaborLimit: sum {i in FURNITURE, j in FINISH} Produce[i,j] * LaborReq
 subject to Ratio: sum {j in FINISH} Produce['Chair',j] >= 2*sum {j in FINISH} Produce['Table',j];
 
 # Special orders on chairs and tables
-#subject to Orders {i in FURNITURE}: sum {j in FINISH} Produce[i,j] >= Demand[i];
-subject to ChairOrders: Produce['Chair', 'Unfinished'] + Produce['Chair', 'Finished'] >= Demand['Chair'];
-subject to TableOrders: Produce['Table', 'Unfinished'] + Produce['Table', 'Finished'] >= Demand['Table'];
+subject to Orders {i in FURNITURE}: sum {j in FINISH} Produce[i,j] >= Demand[i];
