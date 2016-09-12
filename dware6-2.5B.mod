@@ -4,50 +4,62 @@
 # AMPL model by Daniel Ware, University of Central Oklahoma
 #########################################
 
+########################
+# SETS                 #
+########################
 
-## VARIABLES
+# The set of production departments
+set DEPARTMENTS;
 
-#the number of manufactured poles
-var mPoles >= 0;
+# The set of basketball hoop parts
+set PARTS;
 
-#the number of manufactured backboards
-var mBackboards >= 0;
+# The set of parts sources available to SBC
+set SOURCES;
 
-#the number of manufactured rims
-var mRims >= 0;
+########################
+# PARAMETERS           #
+########################
 
-#the number of purchased poles
-var pPoles >= 0;
+# The total demand for basketball hoops
+param Demand;
 
-#the number of manufactured rims
-var pRims >= 0;
+# The production time required by each part in each department 
+# (in hours per part)
+param ProductionTime {PARTS, DEPARTMENTS};
 
+# The total amount of time available per department (in hours)
+param TimeAvailable {DEPARTMENTS};
 
-## OBJECTIVE FUNCTION
+# The cost of obtaining each part from each source (in dollars)
+param PartCost {PARTS, SOURCES};
+
+# The number of each part available from each source
+param PartsAvailable {PARTS, SOURCES};
+
+########################
+# VARIABLES            #
+########################
+
+# the amount of each part we produce for out bball goals
+var Produce {PARTS, SOURCES} >= 0;
+
+########################
+# OBJECTIVE            #
+########################
 
 # The objective is to minimize the cost of producing basketball goals.
 # the cost is calculated by summing the cost associated with acquiring
 # each component times the number of each component we have
-minimize TotalCost: 60*mPoles + 80*mBackboards + 30*mRims
-					+ 95*pPoles + 45*pRims;
+minimize TotalCost: sum {i in PARTS, j in SOURCES} Produce[i,j] * PartCost[i,j];
 
+#########################
+# CONSTRAINTS           #
+#########################
 
-## CONSTRAINTS
+# limit on the available hours in each department
+subject to DeptLabor {k in DEPARTMENTS}: sum {i in PARTS} Produce[i, 'Make'] * ProductionTime[i,k] <= TimeAvailable[k];
 
-# Limit on available labor hours in department A
-subject to DeptALabor: 2*mPoles + 2.5*mBackboards + 1*mRims <= 2000;
+#total demand on each part
+subject to PartDemand {i in PARTS}: sum {j in SOURCES} Produce[i,j] >= Demand;
 
-# Limit on available labor hours in department B
-subject to DeptBLabor: 0.5*mPoles + 1*mBackboards + 1.5*mRims <= 900;
-
-# Limit on available labor hours in department C
-subject to DeptCLabor: 1*mPoles + 2*mBackboards + 1*mRims <= 1500;
-
-# number of total rims we must produce
-subject to RimProduction: mRims + pRims >= 500;
-
-# number of total poles we must produce
-subject to PoleProduction: mPoles + pPoles >= 500;
-
-# number of total backboards we must produce
-subject to BackboardProduction: mBackboards >= 500;
