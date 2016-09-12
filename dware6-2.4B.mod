@@ -5,56 +5,68 @@
 #########################################
 
 
-### Declare variables
+########################
+# SETS                 #
+########################
 
-# The number of unstained Model A bookshelves produced
-var UnstainedA >= 0;
+# The set of bookshelf models
+set MODELS;
 
-# The number of stained Model A bookshelves produced
-var StainedA >= 0;
+# The set of finish types
+set TYPES;
 
-# The number of unstained Model B bookshelves produced
-var UnstainedB >= 0;
+# The set of assembly departments
+set DEPARTMENTS;
 
-# The number of stained Model B bookshelves produced
-var StainedB >= 0;
+########################
+# PARAMETERS           #
+########################
 
-# The number of unstained Model C bookshelves produced
-var UnstainedC >= 0;
+# The amount of labor required from each department to build one bookshelf 
+# by type and model (in hours)
+param LaborRequired {TYPES, MODELS, DEPARTMENTS} >= 0;
 
-# The number of stained Model C bookshelves produced
-var StainedC >= 0;
+# The amount of labor available over the next two weeks 
+# by department (in hours)
+param LaborAvailable {DEPARTMENTS} >= 0;
 
+# The amount of profit earned from the manufacture and sale of one bookshelf
+# by type and model (in dollars)
+param Profit {TYPES, MODELS} >= 0;
 
-### Objective Function
+# The minimum demand by model
+param MinDemand {MODELS} >= 0;
+
+# The maximum demand by type
+param MaxDemand {TYPES} >= 0;
+
+########################
+# VARIABLES            #
+########################
+
+# the number of each type of model and type that we must make
+var Produce {MODELS, TYPES} >= 0;
+
+########################
+# OBJECTIVE            #
+########################
 
 # The objective here is to maximize profit
 # The profit (in dollars) can be found by taking the revenue, minus the cost,
-# multiplied by the number of each
+# multiplied by the number of each Bookshelf
 
-maximize TotalProfit: 	30*UnstainedA + 60*StainedA 
-						+ 20*UnstainedB + 40*StainedB
-						+ 40*UnstainedC + 75*StainedC;
+maximize TotalProfit: sum {i in MODELS, j in TYPES} Profit[j,i] * Produce[i,j];
 
 
-### Constraints
+#########################
+# CONSTRAINTS           #
+#########################
 
-# The min on model B produced
-subject to ModelBMin: UnstainedB + StainedB >= 20;
+# The minimum amount of each model we can produce
+subject to MinModelProduction{i in MODELS}: sum {j in TYPES} Produce[i,j] >= MinDemand[i];
 
-# The limit on unstained bookshelves produced
-subject to UnstainedModelsLimit: UnstainedA + UnstainedB + UnstainedC <= 50;
+# the Maximum amount of each type we can produce
+subject to MaxTypeProduction{j in TYPES}: sum {i in MODELS} Produce[i,j] <= MaxDemand[j];
 
-# The limit on cutting labor
-subject to CuttingLaborLimit: 	1*(UnstainedA + StainedA) + 0.5*(UnstainedB + StainedB)
-								+ 2*(UnstainedC + StainedC) <= 200;
-
-# The limit on assembling labor
-subject to AssemblingLaborLimit:	4*(UnstainedA + StainedA) + 3*(UnstainedB + StainedB)
-									+ 6*(UnstainedC + StainedC) <= 700;
-
-# The limit on staining labor
-subject to StainingLaborLimit: 	7*StainedA + 5*StainedB + 8*StainedC <= 550;
-
-
-
+# the max amount of time each model and type can spend in each department
+subject to DeptLaborTime{k in DEPARTMENTS}: sum {i in MODELS, j in TYPES} Produce[i,j] * LaborRequired[j,i,k] <= LaborAvailable[k];
