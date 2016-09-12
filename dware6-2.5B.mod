@@ -41,7 +41,7 @@ param PartsAvailable {PARTS, SOURCES};
 # VARIABLES            #
 ########################
 
-# the amount of each part we produce for out bball goals
+# the amount of each part we get for out bball goals
 var Produce {PARTS, SOURCES} >= 0;
 
 ########################
