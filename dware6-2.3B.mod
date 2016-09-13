@@ -1,53 +1,70 @@
 #########################################
-# Exercise 2.3 - Film Packaging
+# Exercise 2.3B - Film Packaging
 # From Deterministic Operations Research by David J. Rader Jr.
 # AMPL model by Daniel Ware, University of Central Oklahoma
 #########################################
 
+########################
+# SETS                 #
+########################
 
-### Declare variables
+# The set of film types
+set FILMS;
 
-# The number of square yards of 1mm film to be produced
-var Film1 >= 0, <= 400;
+#The set of machines for processing film
+set MACHINES;
 
-# The number of square yards of 3mm film to be produced
-var Film3 >= 0, <= 250;
+########################
+# PARAMETERS	       #
+########################
 
-# The number of square yards of 5mm film to be produced
-var Film5 >= 0, <= 200;
+# The number of hours each machine is available each week
+param MachineTimeAvailable {MACHINES} >= 0;
 
-# The number of square yards of 0.5mm film to be produced
-var Film0 >= 0, <= 450;
+# The revenue (in dollars per square yard) for each film type
+param Revenue {FILMS} >= 0;
 
-# The minutes that machine 1 was used
-var mach1 = 5*Film1 + 4*Film3 + 4*Film5 + 6*Film0;
+# The raw material cost (in dollars per square yard) for each type of film
+param RawMaterialCost {FILMS} >= 0;
 
-# The minutes that machine 2 was used
-var mach2 = 8*Film1 + 7*Film3 + 5*Film5 + 10*Film0;
+# The processing cost (in dollars per hour) for each machine
+param ProcessingCost {MACHINES} >= 0;
 
-# The minutes that machine 3 was user
-var mach3 = 9*Film1 + 5*Film3 + 4*Film5 + 6*Film0;
+# The amount of time required on each machine by each type of film (in minutes per square yard)
+param ProcessingTime {FILMS, MACHINES} >= 0;
+
+# The maximum demand for each type of film (in square yards per week)
+param Demand {FILMS} >= 0;
+
+#########################
+# VARIABLES	            #
+#########################
 
 
-### Objective Function
+# The amount of each film type to be produced each week
+var Manufactored {FILMS} >= 0;
+
+#########################
+# OBJECTIVE	            #
+#########################
+
 
 # The objective here is to maximize profit
 # The profit (in dollars) can be found by taking the revenue, minus the cost, 
 # minus the variable cost which itself can be calculated by multiplying the 
 # labor cost by the required time.
+# sum of film * (revenue - mat costs) - sum of machine minutes * costs/minutes
+maximize TotalProfit: sum {i in FILMS} Manufactored[i] * (Revenue[i] - RawMaterialCost[i]
+					-  sum {j in MACHINES} ProcessingCost[j]/60 * ProcessingTime[i,j]);
 
-maximize TotalProfit: 	(Film1*(110-30) + Film3*(90-10) + Film5*(60-10) + Film0*(100-20))
-						- ((mach1*25 + mach2*25 + mach3*35)/60);
+#########################
+# CONSTRAINTS	        #
+#########################
 
+# The limit of each machine's time
+# time each machine is used for each film
+subject to MachineTimeLimit {j in MACHINES}:sum {i in FILMS} ProcessingTime[i,j] * Manufactored[i] 
+												<= MachineTimeAvailable[j] * 60;
 
-### Constraints
-
-# The limit on Machine One's time in minutes
-subject to Machine1: mach1 <= 60*60;
-
-# The limit on Machine Two's time in minutes
-subject to Machine2: mach2 <= 60*60;
-
-# The limit on Machine Three's time in minutes
-subject to Machine3: mach3 <= 60*60;
-
+# The maximum amount of each film we can produce a week
+subject to ProductionMinimums {i in FILMS}: Manufactored[i] <= Demand[i];
