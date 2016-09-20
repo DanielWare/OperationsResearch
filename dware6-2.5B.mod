@@ -63,6 +63,6 @@ subject to DeptLabor {k in DEPARTMENTS}: sum {i in PARTS} Produce[i, 'Make'] * P
 #total demand on each part
 subject to PartDemand {i in PARTS}: sum {j in SOURCES} Produce[i,j] >= Demand;
 
-# we can only buy certain parts
-subject to PartsToPurchase {i in PARTS, j in SOURCES}: Produce[i,j] <= PartsAvailable[i,j];
+# limit on the parts we can get from each source
+subject to LimitPartsFromSource {i in PARTS, j in SOURCES}: Produce[i,j] <= PartsAvailable[i,j];
 
