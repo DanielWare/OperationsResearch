@@ -1,0 +1,54 @@
+##########################################################
+# Exercise 2.19 - WellBuilt Cabinet Co. - DATA
+# From Deterministic Operations Research by David J. Rader
+# by Dr. Bradley Paynter, University of Central Oklahoma
+# for MATH 4113/5113 - Operations Research I - Fall 2015
+##########################################################
+
+########################
+# SETS                 #
+########################
+
+# The set of all log diameters
+set LOGS := 8 10 14 18;
+
+# The set of lumber grades that can be purchased
+set GRADES := 1 2;
+
+# The set of lumber types
+set TYPES := Dried Green;
+
+########################
+# PARAMETERS           #
+########################
+
+# The cost (in dollars per log) of logs
+# The number of blanks produced per log
+# The number of boardfeet of lumber produced per log
+# The number of logs available for purchase.
+param: 		LogCost		BlanksPerLog	LogsAvailable	BoardfeetPerLog :=
+	8	100		70		100		400
+	10	120		90		75		600
+	14	150		120		60		1000
+	18	175		150		40		1400		;
+
+# The cost (in dollars per boardfoot) of purchased lumber
+param LumberCost:	Green	Dried 	:=
+	1		1.60	1.85
+	2		1.00	1.15	;
+
+# The number of blanks produced per boardfoot of lumber
+# The number of boardfeet of lumber avialable for purchase
+param: 		BlanksPerBoardfoot	LumberAvailable :=
+	1	0.15			4000
+	2	0.06			10000		;
+
+# The capacity (in logs) of the company mill
+param MillCapacity := 50;
+
+# The capacity (in boardfeet) of the company kiln
+param KilnCapacity := 7500;
+
+# The number of blanks required
+param BlanksRequired := 2000;
+

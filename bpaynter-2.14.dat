@@ -1,0 +1,37 @@
+#########################################
+# Exercise 2.14 - Cattle Feed
+# From Deterministic Operations Research by David J. Rader Jr.
+# AMPL model by Dr. Brad Paynter, University of Central Oklahoma
+# for MATH 4113/5113 - Operations Research 1 - Fall 2016
+#########################################
+
+########################
+# SETS                 #
+########################
+
+set INGREDIENTS := Oats Corn Alfalfa;
+set NUTRIENTS := Protein Fat Fiber;
+
+########################
+# PARAMETERS           #
+########################
+
+# The amount of nutrient j in ingredient i (in % of RDA per ton)
+param Nutrition: 	Protein	Fat	Fiber	:=
+	Oats		13	22	40
+	Corn		7	10	30
+	Alfalfa		4	15	60	;
+
+# The cost of each ingredient (in $ per ton)
+param Cost 		:=
+	Oats	80
+	Corn	110
+	Alfalfa	90	;
+
+# The minimum amount of each nutrient that must be in 1 ton of feed (in % of RDA)
+# The maximum amount of each nutrient that must be in 1 ton of feed (in % of RDA)
+param:			MinNutrition 	MaxNutrition 	:=
+	Protein		8		infinity
+	Fat		12		16
+	Fiber		0		50		;
+

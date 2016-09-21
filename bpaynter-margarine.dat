@@ -1,0 +1,60 @@
+##########################################################
+# VBJ Inc Margerine Production model - data file
+# by Dr. Bradley Paynter, University of Central Oklahoma
+# for MATH 4113/5113 - Operations Research I - Fall 2015
+##########################################################
+
+########################
+# SETS                 #
+########################
+
+# The set of raw oils
+set OILS := Canola Sunflower Butter Lard Fish;
+
+# The set of margerine products
+set PRODUCTS := Basic Premium;
+
+########################
+# PARAMETERS           #
+########################
+
+# The number of months over which we are planning
+param Months := 6;
+
+# The limit (in tons) to the amount of each oil that can be
+# stored from one month to the next
+param StorageLimit := 1000;
+
+# The monthly total refining capacity for raw oil (in tons)
+param RefiningCapacity := 450;
+
+# The cost (in dollars per ton per month) of storing raw oil
+param StorageCost := 5;
+
+# The initial amount of oil (in tons) in storage
+param InitialStorage := 500;
+
+# The price for which each margerine product is sold
+# The minimum required hardness of each margerine produced
+# The maximum required hardness of each margerine produced
+# The required production ratio of margerines produced
+param: 	SellingPrice 	MinHardness	MaxHardness 	ProductionRatio :=
+Basic	140		5		6		-1
+Premium	160		3		4		3		;
+
+# The hardness factor of raw oils
+param RawHardness :=
+	Canola		8.8
+	Sunflower	6.1
+	Butter		2.0
+	Lard		4.2
+	Fish		5.0	;
+
+# The cost (in dollars per ton) of raw oil for delivery in each month
+param OilCost: 	1	2	3	4	5	6 	:=
+Canola		110	130	110	120	100	90
+Sunflower	120	130	140	110	120	100
+Butter		130	110	130	120	150	140
+Lard		110	90	100	120	110	80
+Fish		115	115	95	125	105	135	;
+

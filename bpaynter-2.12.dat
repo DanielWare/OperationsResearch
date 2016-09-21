@@ -1,0 +1,30 @@
+#########################################
+# Exercise 2.12 - Mammoth Oil
+# From Deterministic Operations Research by David J. Rader Jr.
+# AMPL model by Dr. Brad Paynter, University of Central Oklahoma
+# for MATH 4113/5113 - Operations Research 1 - Fall 2016
+#########################################
+
+########################
+# SETS                 #
+########################
+
+set GASOLINES := Gas1 Gas2 Gas3;
+set CRUDEOILS := Crude1 Crude2 Crude3;
+
+########################
+# PARAMETERS           #
+########################
+
+param: 		PurchasePrice 	OctaneRating 	QualityRating 	MaxAvailable 	:=
+	Crude1		55		85		50		5000
+	Crude2		65		90		65		5000
+	Crude3		75		94		85		5000	;
+
+param: 		MinOctaneRequired 	MinQualityRequired 	GasDemanded 	:=
+	Gas1		87			60		4000
+	Gas2		89			70		3000
+	Gas3		91			80		2000		;
+
+param RefineryCapacity := 14000;
+param RefiningCost := 4;

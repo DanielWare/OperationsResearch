@@ -1,0 +1,55 @@
+##########################################################
+# Exercise 2.20 - Garbage Can Production - DATA
+# From Deterministic Operations Research by David J. Rader
+# by Dr. Bradley Paynter, University of Central Oklahoma
+# for MATH 4113/5113 - Operations Research I - Fall 2015
+##########################################################
+
+########################
+# SETS                 #
+########################
+
+# The set of garbage can sizes
+set CANS := Large Small;
+
+# The set of manufacturing processes
+set PROCESSES := Machine Painting;
+
+########################
+# PARAMETERS           #
+########################
+
+# The number of months in the planning horizon
+param Months := 4;
+
+# The initial number of each can in storage
+# The storage requirements for each can (in storage units)
+# The amount of plastic used in manufacture
+# The cost of production (in dollars per can)
+# The cost of storage (in dollars per can)
+param:  	PlasticRequired	StorageSize	ProductionCost	StorageCost	InitialStorage	:=
+	Large	5		6		15		2		75
+	Small	3		3		10		1		50		;
+	
+# The demand for garbage cans
+param Demand:	1	2	3	4	:=
+	Large	3000	4500	3000	4000
+	Small	2500	4000	4000	4000	;
+
+# The time required to produce garbage cans (in hours per can)
+param ProductionTime:	Machine		Painting	:=
+	Large		0.1		0.05
+	Small		0.08		0.04		;                  
+
+# The total amount of time available in each month (in hours)
+param TimeAvailable :=
+	Machine		650
+	Painting	350	;
+
+# The storage capacity available (in storage units)
+param StorageCapacity := 10000;
+
+# The amount of raw material available each month (in pounds)
+param PlasticAvailable := 30000;
+
+
