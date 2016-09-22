@@ -31,15 +31,34 @@ param MaxNutrition {NUTRIENTS} >= 0;
 # VARIABLES            #
 ########################
 
-var 
+# the ratio of ingredients needed for creating a ton of feed
+var feed {INGREDIENTS} >= 0;
 
 ########################
 # OBJECTIVE            #
 ########################
 
-#minimize TotalCost:
+# the objective is to minimize the total cost of creating a ton of feed that meets the RDA constraint
+# the cost is calculated by multiplying the ratio of each ingredient times its cost
+minimize TotalCost: sum {i in INGREDIENTS} feed[i] * Cost[i];
 
 #########################
 # CONSTRAINTS           #
 #########################
+
+# limit the amount of feed produced to 1 so that feed is a ratio and we only produce 1 ton
+subject to ratio: sum{i in INGREDIENTS} feed[i] = 1;
+
+# each nutrition should be greater than min nutrition required
+subject to minNutritionConstraint {n in NUTRIENTS}: sum{i in INGREDIENTS} feed[i] * Nutrition[i, n] >= MinNutrition[n]; 
+
+# each nutrition should be less than max nutrition required
+subject to maxNutritionConstraint {n in NUTRIENTS}: sum{i in INGREDIENTS} feed[i] * Nutrition[i, n] <= MaxNutrition[n]; 
+
+
+
+
+
+
+
 
