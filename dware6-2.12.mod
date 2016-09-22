@@ -86,6 +86,7 @@ subject to refiningCapacityConstraint: sum {j in GASOLINES} gasRefined[j] <= Ref
 # we cannot purchase more than the max amount of barrels available each day
 subject to maxCrudeAvailableConstraint {i in CRUDEOILS}: purchasedCrude[i] <= MaxAvailable[i]; 
 
+###### THIS IS NOT CORRECT ######
 # one barrel of crude make one barrel of gas
 subject to gasToCrudeRefiningConstraint {i in CRUDEOILS}: sum {j in GASOLINES} crudeToGasRatio[i,j] * purchasedCrude[i] = gasRefined[j];
 

@@ -32,6 +32,6 @@ param Cost 		:=
 # The maximum amount of each nutrient that must be in 1 ton of feed (in % of RDA)
 param:			MinNutrition 	MaxNutrition 	:=
 	Protein		8		infinity
-	Fat		12		16
+	Fat			12		16
 	Fiber		0		50		;
 
