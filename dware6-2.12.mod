@@ -47,47 +47,35 @@ param RefiningCost >= 0;
 # VARIABLES            #
 ########################
 
-# The ratio of crude i that goes into making gas j
-var crudeToGasRatio {CRUDEOILS, GASOLINES} >= 0;
-
-# The amount of each crude that we purchase each day in barrels
-var purchasedCrude {CRUDEOILS} >= 0;
-
-# the amount of each gas that we refine each day in barrels
-var gasRefined {GASOLINES} >= 0;
+# The ratio of barrels of crudeoil that goes into making barrels of gas
+var production {CRUDEOILS, GASOLINES} >= 0;
 
 ########################
 # OBJECTIVE            #
 ########################
 
 # The objective is to minimize the total cost of creating the required gases
-minimize TotalCost: sum {i in CRUDEOILS} purchasedCrude[i] * PurchasePrice[i] - sum {j in GASOLINES} gasRefined[j] * RefiningCost;
+minimize TotalCost: sum{c in CRUDEOILS} PurchasePrice[c] * sum{g in GASOLINES} production[c,g]
+						+ RefiningCost * sum{g in GASOLINES} sum{c in CRUDEOILS} production[c,g];
 
 #########################
 # CONSTRAINTS           #
 #########################
 
-
-# the crude ratio for each gas must be added up to 1
-subject to crudeToGasRatioConstraint {j in GASOLINES}: sum {i in CRUDEOILS} crudeToGasRatio[i, j] = 1;
-
 # the crude ratio must make the gas meet min octane rating
-subject to minOctaneConstraint {j in GASOLINES}: sum {i in CRUDEOILS} crudeToGasRatio[i,j] * OctaneRating[i] >= MinOctaneRequired[j]; 
+subject to minOctaneConstraint {g in GASOLINES}: sum {c in CRUDEOILS} production[c,g] * OctaneRating[c] >= MinOctaneRequired[g] * sum{c in CRUDEOILS} production[c,g]; 
 
 # the crude ratio must make the gas meet min quality rating
-subject to minQualityConstraint {j in GASOLINES}: sum {i in CRUDEOILS} crudeToGasRatio[i,j] * QualityRating[i] >= MinQualityRequired[j];
+subject to minQualityConstraint {g in GASOLINES}: sum {c in CRUDEOILS} production[c,g] * QualityRating[c] >= MinQualityRequired[g] * sum{c in CRUDEOILS} production[c,g];
 
 # the amount of gas produced must meet required min each day
-subject to refiningMinConstraint {j in GASOLINES}: gasRefined[j] >= GasDemanded[j];
+subject to refiningMinConstraint {g in GASOLINES}: sum{c in CRUDEOILS} production[c,g] >= GasDemanded[g];
 
 # we cannot refine more oil than the factory max each day
-subject to refiningCapacityConstraint: sum {j in GASOLINES} gasRefined[j] <= RefineryCapacity;
+subject to refiningCapacityConstraint: sum {c in CRUDEOILS, g in GASOLINES} production[c,g] <= RefineryCapacity;
 
 # we cannot purchase more than the max amount of barrels available each day
-subject to maxCrudeAvailableConstraint {i in CRUDEOILS}: purchasedCrude[i] <= MaxAvailable[i]; 
+subject to maxCrudeAvailableConstraint {c in CRUDEOILS}: sum {g in GASOLINES} production[c,g] <= MaxAvailable[c];
 
-###### THIS IS NOT CORRECT ######
-# one barrel of crude make one barrel of gas
-subject to gasToCrudeRefiningConstraint {i in CRUDEOILS}: sum {j in GASOLINES} crudeToGasRatio[i,j] * purchasedCrude[i] = gasRefined[j];
 
 

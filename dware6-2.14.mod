@@ -31,11 +31,13 @@ param MaxNutrition {NUTRIENTS} >= 0;
 # VARIABLES            #
 ########################
 
+var 
 
 ########################
 # OBJECTIVE            #
 ########################
 
+#minimize TotalCost:
 
 #########################
 # CONSTRAINTS           #
