@@ -74,8 +74,7 @@ minimize Cost: sum{c in CANS, m in 1..Months} producedCans[c,m] * ProductionCost
 #########################
 
 ## the monthly demand must be met
-subject to firstMonthDemandConstraint{c in CANS}: producedCans[c, 1] + InitialStorage[c] 
-														- storedCans[c,1] >= Demand[c, 1];
+subject to firstMonthDemandConstraint{c in CANS}: producedCans[c, 1] + InitialStorage[c] - storedCans[c,1] >= Demand[c, 1];
 
 subject to afterFirstMonthDemandConstraint{c in CANS, m in 2..Months}: storedCans[c,m-1] + producedCans[c,m] - storedCans[c,m] >= Demand[c,m];
 
