@@ -55,14 +55,18 @@ param PlasticAvailable >= 0;
 # VARIABLES		#
 #########################
 
+# the amount of Cans (CANS) we produce each month (1..Months)
 var producedCans{CANS, 1..Months} >= 0;
 
+# the amoung of Cans (CANS) we store in month (1..Months)
 var storedCans {CANS, 1..Months} >= 0;
 
 #########################
 # OBJECTIVE		#
 #########################
 
+# the objective is to minimize the cost of producing and storing cans while meeting the minimum production demands
+# we calculate the cost by summing the production cost * produced cans plus the storage cost * storedCans
 minimize Cost: sum{c in CANS, m in 1..Months} producedCans[c,m] * ProductionCost[c] + sum{c in CANS, m in 1..Months} storedCans[c,m] * StorageCost[c];
 
 #########################
