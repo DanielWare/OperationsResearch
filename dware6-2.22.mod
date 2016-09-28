@@ -79,6 +79,9 @@ var fired {1..Months} >= 0 integer;
 # OBJECTIVE #
 #########################
 
+# the objective is to minimize the cost of shoe production
+# the cost is calculated from employee hours worked * salary + hired * hiring cost + fired * fired cost
+# plus overtime hours * overtime rate + stored shoes * storage costs
 minimize Cost: 	sum{m in 1..Months}employees[m] * WorkerSalary 
 				+ sum{m in 1..Months}hired[m] * HiringCost
 				+ sum{m in 1..Months}fired[m] * FiringCost
